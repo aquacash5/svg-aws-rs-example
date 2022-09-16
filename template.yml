@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: AWS SAM template with a simple API definition
+
+Resources:
+  ApiGatewayApi:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      MethodSettings:
+        - ResourcePath: /
+          HttpMethod: GET
+
+  SvgGenerator:
+    Type: AWS::Serverless::Function
+    Properties:
+      Events:
+        ApiEvent:
+          Type: Api
+          Properties:
+            Path: /
+            Method: get
+            RestApiId:
+              Ref: ApiGatewayApi
+      Architectures: ["arm64"]
+      Handler: bootstrap
+      Runtime: provided.al2
+      Timeout: 5
+      CodeUri: ./target/lambda/svg-aws-rs-example/bootstrap.zip
