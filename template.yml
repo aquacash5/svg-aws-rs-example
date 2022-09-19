@@ -10,6 +10,8 @@ Resources:
       MethodSettings:
         - ResourcePath: /
           HttpMethod: GET
+      BinaryMediaTypes:
+        - "*/*"
 
   SvgGenerator:
     Type: AWS::Serverless::Function
